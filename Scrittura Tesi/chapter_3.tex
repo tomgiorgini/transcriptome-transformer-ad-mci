@@ -1,0 +1,115 @@
+\chapter{State of the Art}
+\label{ch:state-of-art}
+
+\section{Blood gene expression-based AD classification}
+\label{sec:blood-expression-ad-classification}
+
+Blood gene expression has been studied as a possible source of peripheral biomarkers for Alzheimer's disease (AD). The motivation is clear: blood is easier to collect than cerebrospinal fluid, less expensive and more scalable than neuroimaging, and potentially informative about immune, inflammatory, metabolic, and systemic changes associated with neurodegeneration. From a machine learning perspective, blood transcriptomics also provides a high-dimensional molecular representation that can be used for supervised classification.
+
+However, the literature is not centered on the same task addressed in this thesis. Most studies evaluate AD versus cognitively normal controls (CTL or CN). This disease-versus-control setting is useful for showing that blood expression contains some AD-related signal, but it is not equivalent to distinguishing AD dementia from mild cognitive impairment (MCI). The AD/CTL comparison is usually more separable because it contrasts clinically diagnosed dementia with cognitively normal subjects. The AD/MCI comparison is more subtle because MCI is an intermediate and heterogeneous condition. Therefore, a model that performs well on AD versus CTL does not necessarily solve the early-stage problem.
+
+The earliest and most established part of this literature uses classical machine learning or pathway-based models. Voyle et al. \cite{voyle2016pathway} proposed a pathway-based classification approach for AD diagnosis from gene expression. Moradi et al. \cite{moradi2019supervised} later investigated supervised pathway analysis on blood expression profiles. These studies are important because they show that biological structure can be injected into transcriptomic classification, but they are still primarily framed around AD diagnosis rather than AD/MCI separation.
+
+A central reference for this thesis is Lee and Lee \cite{lee2020prediction}. Their study used blood gene expression data from ADNI, GSE63060, and GSE63061 and evaluated several feature representations and machine learning models. Its importance is methodological as much as numerical: the paper explicitly considers cross-cohort generalization, which is essential in blood transcriptomics because platform and batch effects can strongly influence expression profiles. For this reason, the Lee and Lee framework is one of the most relevant baselines reproduced in this thesis.
+
+More recent work has explored deep learning and more complex feature engineering. Kelly et al. \cite{kelly2023blood} studied blood biomarker-based classification for neurodegenerative diseases and evaluated several feature-selection and modelling strategies. Kalkan et al. \cite{kalkan2022image} and Akkaya and Kalkan \cite{akkaya2023one2mfusion} proposed image-based representations of gene expression, where expression vectors are transformed into two-dimensional images and processed with convolutional or fusion models. Jin et al. \cite{jin2023tabnet} used a TabNet-style neural architecture for AD classification from genetic data. Hariharan and Jothi \cite{hariharan2026xai} proposed a more recent deep learning and explainability pipeline with feature selection and augmentation. Sarma and Chatterjee \cite{sarma2025diagnostics} studied stage diagnosis using blood gene expression and clinical data from ADNI.
+
+These studies are relevant, but they are heterogeneous in task definition. Some focus on AD versus CN, some remove MCI samples, some evaluate multiclass CN/MCI/AD classification, and some incorporate clinical variables together with gene expression. Other papers address MCI explicitly, but often in a different way from this thesis. Zhang et al. \cite{zhang2024xgboost} proposed a multiclass XGBoost model and reported pairwise AD/MCI performance, but the primary framing is not a strict binary AD/MCI benchmark. Park et al. \cite{park2024transcriptomics} studied MCI discrimination and conversion to AD, which is closer to prognosis than to cross-sectional AD versus MCI classification. Oh et al. \cite{oh2022neuroinflammation} investigated neuroinflammation-related blood biomarkers across CN, MCI, and AD, with external validation but relatively modest accuracy.
+
+The pattern that emerges is therefore consistent: blood transcriptomic AD classification is active, but direct AD versus MCI classification using only gene expression is much less consolidated than AD versus CTL. Many strong-looking results in the literature are not directly comparable to the main task of this thesis because they solve easier, broader, or differently defined problems. This motivates the structure of the present work: AD versus MCI is treated as the main benchmark, while AD versus CTL is used as a reference task for comparison with published state-of-the-art studies.
+
+\begin{table}[htbp]
+\centering
+\caption{Task framing in selected blood-transcriptomic AD studies. The main gap for this thesis is the limited number of studies centered directly on transcriptome-only AD versus MCI classification.}
+\label{tab:literature-task-framing}
+\begin{tabular}{p{0.26\textwidth}p{0.28\textwidth}p{0.36\textwidth}}
+\hline
+Study family & Main task in the literature & Relevance to this thesis \\
+\hline
+Pathway and classical ML studies & Mostly AD vs CTL/CN & Useful historical and methodological references \\
+Lee and Lee 2020 & AD prediction with cross-cohort evaluation & Strong reference for reproducible AD/CTL benchmarking \\
+Image-based and fusion models & Pairwise AD/CN/MCI tasks on pooled data & Relevant but sensitive to feature-engineering leakage \\
+TabNet and deep learning studies & AD/CTL or multiclass stage diagnosis & Useful neural baselines, not always AD/MCI-centered \\
+MCI conversion studies & Stable/progressive MCI or MCI-to-AD conversion & Clinically related but not identical to cross-sectional AD/MCI \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Reviewed and reproduced approaches}
+\label{sec:reviewed-approaches}
+
+This thesis reproduces or adapts five representative state-of-the-art approaches under a common experimental protocol. The objective is not to replicate every detail of the original studies exactly. Exact replication is often impossible because the papers differ in datasets, preprocessing choices, feature spaces, target definitions, and validation protocols. Instead, the goal is to translate the main methodological ideas of each study into a common local benchmark based on the same processed expression matrices and the same three binary tasks: AD versus MCI, AD versus CTL, and MCI versus CTL.
+
+This design has two advantages. First, it makes the comparison fairer than comparing published numbers taken from different protocols. Second, it directly tests whether methods that are strong in AD versus CTL remain effective in AD versus MCI. This is the critical question for the thesis. If a method performs well only in the easier disease-versus-control setting, its relevance to the main task is limited.
+
+\paragraph{Lee and Lee 2020.}
+Lee and Lee \cite{lee2020prediction} is one of the most important references for blood gene expression classification in AD. The study compared several ways of representing the transcriptomic input, including differentially expressed genes, knowledge-driven gene sets, autoencoder or variational autoencoder representations, and hub-gene features. These representations were combined with classifiers such as logistic ridge regression, support vector machines, random forests, and deep neural networks.
+
+The methodological strength of the paper is the attention to cross-cohort evaluation. Blood expression datasets are particularly vulnerable to cohort and platform effects. A method that works only in random cross-validation within a pooled dataset may be learning technical or cohort-specific patterns. Lee and Lee explicitly addressed this issue by evaluating generalization across datasets. For this thesis, the reproduced Lee-style pipeline is used as a strong reference. In the updated local results, the differentially expressed gene representation remains the most competitive Lee and Lee feature set, although the best downstream classifier is task dependent.
+
+\paragraph{Kelly et al. 2023.}
+Kelly et al. \cite{kelly2023blood} studied blood biomarker-based classification in a broader neurodegenerative disease context. Their work is relevant because it compares multiple feature-selection strategies and machine learning models, including LASSO, VAE-based reduction, VSSRFE-style feature selection, random forest, SVM, XGBoost, MLP, CNN, and ensemble methods. Although the paper is not designed specifically around AD versus MCI, it represents a modern and systematic benchmark of blood-derived classifiers.
+
+In this thesis, the Kelly-inspired reproduction captures the feature-selection and classifier combinations that can be adapted to the local GEO-based tasks. The most relevant reproduced configuration uses a VSSRFE-LR-style selection with a random forest classifier. This family is important because it represents a more complex feature-selection approach than simple top-variance or DEG filtering, while still remaining in the classical machine learning regime.
+
+\paragraph{One2MFusion 2023.}
+Kalkan et al. \cite{kalkan2022image} first proposed an image-based representation of gene expression for AD prediction, and Akkaya and Kalkan \cite{akkaya2023one2mfusion} later extended this direction with One2MFusion. The central idea is to transform gene expression vectors into two-dimensional representations and combine information from the original expression vector and its image representation. This allows convolutional models to be applied to gene expression data, even though the original data are not images.
+
+The approach is interesting because it reports strong pairwise performance in the original paper, including AD/MCI results. However, it is also methodologically delicate. The transformation from gene expression to image representation can involve supervised feature selection, gene ordering, and dimensionality-reduction steps. If these steps are fitted before validation splitting, the reported performance can become optimistic. The reproduction in this thesis evaluates the One2MFusion family under a stricter common protocol, which makes it possible to test how robust the approach remains when leakage is controlled.
+
+\paragraph{Diagnostics 2025.}
+Sarma and Chatterjee \cite{sarma2025diagnostics} investigated AD stage diagnosis using blood gene expression and clinical data from ADNI. The paper is relevant because it focuses on multiclass stage diagnosis, considers the high-dimensional low-sample-size nature of gene expression, and evaluates feature selection and augmentation strategies. It also compares gene-expression features with clinical variables, showing that clinical data can dominate performance in some settings.
+
+The original Diagnostics 2025 work is not a direct match for this thesis because it is ADNI-based and multiclass. In this thesis, the gene-expression branch is adapted to the local GEO-based binary tasks. The reproduced pipeline uses an XGBoost/SFBS-inspired feature-selection strategy, optional imbalance handling, and a deep learning classifier. This reproduction is useful because it tests a recent stage-diagnosis strategy under a transcriptome-only, binary benchmark.
+
+\paragraph{Scientific Reports 2026.}
+Hariharan and Jothi \cite{hariharan2026xai} proposed a deep learning and explainable AI pipeline for AD prediction from blood gene expression. The study combines feature selection, augmentation, deep neural networks or convolutional models, and post-hoc interpretability. It represents a recent attempt to improve AD prediction with deep learning and XAI-oriented feature analysis.
+
+In the local benchmark, the reproduced version captures the components most compatible with the thesis setting: feature selection, augmentation, and a deep neural classifier. This family is included because it is a recent deep-learning baseline and because it is close in spirit to the thesis motivation of moving beyond simple classical classifiers. At the same time, its performance must be evaluated under the same leakage-aware protocol as the other methods.
+
+Together, these five reproduced families cover a meaningful range of the current literature: classical DEG-based machine learning, systematic feature-selection benchmarks, image-based fusion models, recent stage-diagnosis pipelines, and feature selection with augmentation and deep learning. This range is broad enough to contextualize the proposed Transformer-based model without relying on weak or artificially simple baselines.
+
+\section{Limitations of existing studies for AD versus MCI}
+\label{sec:sota-limitations}
+
+The first and most important limitation is task mismatch. A large part of the literature reports AD versus CTL performance. This is not equivalent to AD versus MCI. AD versus CTL compares subjects with diagnosed dementia to cognitively normal controls, while AD versus MCI compares two clinically closer groups. The latter is more relevant to early-stage discrimination and is expected to be more difficult. Therefore, published AD/CTL performance should be treated as a reference, not as a direct state-of-the-art estimate for the main task of this thesis.
+
+The second limitation is that multiclass classification can obscure the specific difficulty of MCI. A CN/MCI/AD classifier may obtain a reasonable overall score while still confusing MCI with AD or CTL. If the main clinical interest is the boundary between MCI and AD, then aggregate multiclass performance is not sufficient. Pairwise AD/MCI evaluation is needed to determine whether the model captures signal specifically at that boundary.
+
+The third limitation is validation heterogeneity. Some studies use external validation across datasets, which is stronger, while others use internal cross-validation on pooled samples. Pooled cross-validation can be problematic when technical batches are present. If samples from GSE63060 and GSE63061 are mixed before splitting, the training and test folds may share dataset-specific structure. This makes performance easier to overestimate. Cross-cohort or batch-aware evaluation is more informative because it tests whether the learned signal survives a distribution shift.
+
+The fourth limitation is leakage from preprocessing and feature selection. Transcriptomic pipelines often include normalization, batch correction, probe filtering, differential expression analysis, gene ranking, dimensionality reduction, augmentation, and model tuning. Each of these steps can leak information if fitted using the full dataset before the validation split. Leakage can be subtle: even if the classifier is trained only on the training set, the feature space itself may already encode information from the test samples. In high-dimensional data, this can have a large effect.
+
+The fifth limitation concerns batch correction. Batch correction is necessary when combining datasets generated under different technical conditions, but it must be performed carefully. Methods such as ComBat \cite{johnson2007combat} estimate batch-related effects from the data. If the held-out test samples are used to estimate these effects during training, the validation protocol is no longer clean. This creates a difficult trade-off: ignoring batch effects can damage generalization, but correcting them incorrectly can create leakage.
+
+The sixth limitation is the use of additional non-transcriptomic information. Some studies include demographic, neuropsychological, or clinical variables together with gene expression. This can be clinically valuable, but it makes the result less comparable to transcriptome-only models. In particular, high performance obtained with cognitive scores or clinical variables cannot be interpreted as evidence that blood gene expression alone is sufficient.
+
+The seventh limitation is metric reporting. Accuracy and ROC-AUC are common, but macro-F1 is reported less consistently. This is a weakness for AD/MCI because the classes are moderately imbalanced and because errors on MCI are especially important. A model with high accuracy may still perform poorly on the MCI class. For this reason, this thesis reports accuracy, macro-F1, and ROC-AUC together, and uses macro-F1 as the main ranking metric for reproduced methods.
+
+These limitations do not make previous work invalid. Rather, they define the conditions under which previous results should be interpreted. The literature shows that blood transcriptomics contains predictive information, especially for AD versus CTL. What remains less clear is how much robust information is available for AD versus MCI under leakage-aware validation. This is the gap that the benchmark in this thesis addresses.
+
+\section{Standardized reproduction protocol}
+\label{sec:reproduction-protocol}
+
+Since the reviewed studies were not originally designed for the same task, they were reproduced or adapted under a common protocol. The goal of this protocol is to make the comparison between method families more meaningful. Instead of comparing published scores obtained under different datasets and validation schemes, the reproduced methods are evaluated on the same local datasets and with the same primary metrics.
+
+The input data are the processed gene-level expression matrices derived from GSE63060 and GSE63061. The three tasks are AD versus MCI (473 samples), AD versus CTL (522 samples), and MCI versus CTL (427 samples), each with 19,460 features. The full CTL/MCI/AD cohort is used only as the source from which these binary tasks are derived. The present chapter focuses on binary tasks because they isolate the pairwise comparisons of interest.
+
+All reproduced pipelines follow the same principle: any operation that learns from data must be fitted using the training portion of the split. This includes scaling, feature selection, dimensionality reduction, augmentation, and model training. Test samples are reserved for final evaluation. This principle is especially important for methods that rely on differential expression, LASSO, VSSRFE-style selection, XGBoost ranking, image mapping, or augmentation. These operations can strongly shape the final feature space.
+
+The results reported in this chapter use a common shared-test protocol. For each of ten repetitions, the pooled data are divided into 70\% training, 10\% validation, and 20\% test partitions using the same split manifests for every reproduced method. The present comparison is therefore restricted to within-distribution shared-test performance; cross-dataset transfer results are not included in this section.
+
+All reproducible feature-selection and classifier combinations offered by each adapted approach are evaluated, except for configurations based on all genes. For the descriptive summary, the task-specific configuration with the highest mean shared-test ROC-AUC is reported for each family, with accuracy and macro-F1 taken from the same configuration. Because this is a test-summary selection rather than a nested model-comparison procedure, the selected values are interpreted as exploratory upper envelopes.
+
+The five reproduced families included in the updated comparison are:
+\begin{itemize}
+    \item a Lee and Lee 2020-inspired DEG and classical machine learning pipeline;
+    \item a Kelly et al. 2023-inspired feature-selection and random forest pipeline;
+    \item a One2MFusion-inspired vector/image fusion pipeline;
+    \item a Diagnostics 2025-inspired feature-selection, imbalance-handling, and deep learning pipeline;
+    \item a Scientific Reports 2026-inspired feature-selection, augmentation, and deep learning pipeline.
+\end{itemize}
+
+The proposed TxT configuration is considered separately in the following chapters and is therefore not included in the tables of reproduced approaches.
+
+\input{sota_results_shared}

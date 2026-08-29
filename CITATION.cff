@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this thesis software, please cite this repository and the original TxT article."
+title: "Prediction of Alzheimer's Disease and Mild Cognitive Impairment from Blood Gene Expression Using Transcriptome Transformers"
+type: software
+authors:
+  - family-names: Giorgini
+    given-names: Tommaso
+    affiliation: "Sapienza University of Rome"
+keywords:
+  - Alzheimer's disease
+  - mild cognitive impairment
+  - transcriptomics
+  - transformer
+  - multitask learning
+preferred-citation:
+  type: thesis
+  title: "Prediction of Alzheimer's Disease and Mild Cognitive Impairment from Blood Gene Expression Using Transcriptome Transformers"
+  authors:
+    - family-names: Giorgini
+      given-names: Tommaso
+  institution:
+    name: "Sapienza University of Rome"
+  year: 2026

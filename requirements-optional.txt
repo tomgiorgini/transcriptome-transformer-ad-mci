@@ -1,0 +1,13 @@
+# Reproduced literature baselines and optional augmentation methods.
+xgboost>=2,<4
+mlxtend>=0.23,<1
+pytorch-tabnet>=4,<5
+ctgan>=0.10,<1
+sdv>=1.17,<2
+
+# Legacy T-GEM experiments only. TensorFlow availability depends on Python/OS.
+tensorflow>=2.15,<3
+
+# PDF/figure inspection utilities.
+PyMuPDF>=1.24,<2
+certifi>=2024.2

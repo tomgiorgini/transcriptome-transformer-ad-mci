@@ -1,0 +1,213 @@
+\section{Results of the reproduced approaches}
+\label{sec:sota-results}
+
+This section reports the updated shared-test results of the five approaches reproduced from the literature. TxT is considered separately in the following chapters, so that the reproduced reference methods can first be examined on their own.
+
+\paragraph{Reporting rule.}
+All reproducible combinations of feature-selection method and classifier offered by each adapted approach were evaluated on the same split manifests. The data were divided into 70\% training, 10\% validation, and 20\% test partitions, and the experiment was repeated ten times. All transformations learned from the data, including scaling, feature selection, dimensionality reduction, augmentation, and model fitting, were restricted to the training partition. Configurations based on all genes were excluded from both model selection and reporting.
+
+Rather than fixing one arbitrary configuration for each study across all tasks, the tables report the task-specific configuration with the highest mean shared-test ROC-AUC within each reproduced family. Accuracy and macro-F1 are taken from that same configuration. Consequently, each row is an exploratory upper envelope over the configurations evaluated for that family, not a post-selection estimate from a nested model-comparison procedure. Values are reported as mean \(\pm\) standard deviation across repeats, and bold type marks the best mean for each metric within a task.
+
+\subsection*{AD versus MCI}
+
+\begin{table}[htbp]
+\centering
+\begingroup
+\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{
+    >{\raggedright\arraybackslash}p{0.18\textwidth}
+    >{\raggedright\arraybackslash}X
+    >{\centering\arraybackslash}p{0.15\textwidth}
+    >{\centering\arraybackslash}p{0.15\textwidth}
+    >{\centering\arraybackslash}p{0.15\textwidth}
+}
+\toprule
+\rowcolor{gray!18}
+\textbf{Reference} &
+\textbf{Selected configuration} &
+\textbf{Accuracy} &
+\textbf{Macro-F1} &
+\textbf{ROC-AUC} \\
+\midrule
+
+\textbf{Lee and Lee 2020}\textsuperscript{\(\dagger\)} &
+DEG + logistic regression &
+\(0.584 \pm 0.053\) &
+\(0.533 \pm 0.056\) &
+\(0.596 \pm 0.045\) \\
+
+\rowcolor{gray!5}
+\textbf{Kelly et al. 2023} &
+VSSRFE--LR + random forest &
+\(\mathbf{0.614 \pm 0.013}\) &
+\(0.505 \pm 0.028\) &
+\(0.612 \pm 0.059\) \\
+
+\textbf{One2MFusion 2023} &
+CNN branch &
+\(0.591 \pm 0.039\) &
+\(0.527 \pm 0.088\) &
+\(0.616 \pm 0.038\) \\
+
+\rowcolor{gray!5}
+\textbf{Diagnostics 2025} &
+XGBoost/SFBS + Borderline-SMOTE + random forest &
+\(0.600 \pm 0.042\) &
+\(0.551 \pm 0.049\) &
+\(0.607 \pm 0.046\) \\
+
+\textbf{Hariharan and Jothi 2026} &
+RFE + SVM, without augmentation &
+\(0.605 \pm 0.039\) &
+\(\mathbf{0.598 \pm 0.036}\) &
+\(\mathbf{0.657 \pm 0.050}\) \\
+
+\bottomrule
+\end{tabularx}
+\endgroup
+\caption{Shared-test results on AD versus MCI. The reported configuration maximizes mean ROC-AUC within each reproduced family after excluding all-gene variants. All rows use ten repeats except Lee and Lee\textsuperscript{\(\dagger\)}, which uses six valid repeats.}
+\label{tab:ad-mci-sota-results}
+\end{table}
+
+The Lee and Lee estimate is based on six valid repeats rather than ten. In repeats 6, 8, 9, and 10, train-only limma selection returned no genes at the prespecified adjusted-\(p<0.01\) threshold; no fallback genes were introduced. This row is therefore incomplete and should not be compared with the ten-repeat estimates as if it had the same precision.
+
+AD versus MCI remains the most difficult task. The highest mean ROC-AUC is obtained by the Hariharan and Jothi reproduction using unaugmented RFE features and an SVM (\(0.657\)), which also gives the best macro-F1 (\(0.598\)). Kelly et al. yields the highest accuracy (\(0.614\)), but its lower macro-F1 (\(0.505\)) indicates less balanced thresholded predictions. One2MFusion's strongest variant is the standalone CNN branch rather than the full fusion model, while the best Diagnostics variant replaces the originally emphasized dense network with a random forest. These changes illustrate why evaluating the complete reproducible model matrix is more informative than retaining a single hand-picked configuration.
+
+\subsection*{AD versus CTL}
+
+\begin{table}[htbp]
+\centering
+\begingroup
+\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{
+    >{\raggedright\arraybackslash}p{0.18\textwidth}
+    >{\raggedright\arraybackslash}X
+    >{\centering\arraybackslash}p{0.15\textwidth}
+    >{\centering\arraybackslash}p{0.15\textwidth}
+    >{\centering\arraybackslash}p{0.15\textwidth}
+}
+\toprule
+\rowcolor{gray!18}
+\textbf{Reference} &
+\textbf{Selected configuration} &
+\textbf{Accuracy} &
+\textbf{Macro-F1} &
+\textbf{ROC-AUC} \\
+\midrule
+
+\textbf{Lee and Lee 2020} &
+DEG + dense neural network &
+\(0.733 \pm 0.035\) &
+\(0.724 \pm 0.042\) &
+\(0.834 \pm 0.025\) \\
+
+\rowcolor{gray!5}
+\textbf{Kelly et al. 2023} &
+VSSRFE--LR + random forest &
+\(0.737 \pm 0.044\) &
+\(0.734 \pm 0.045\) &
+\(\mathbf{0.848 \pm 0.027}\) \\
+
+\textbf{One2MFusion 2023} &
+FNN/CNN fusion &
+\(0.710 \pm 0.032\) &
+\(0.689 \pm 0.043\) &
+\(0.812 \pm 0.030\) \\
+
+\rowcolor{gray!5}
+\textbf{Diagnostics 2025} &
+XGBoost/SFBS + Borderline-SMOTE + random forest &
+\(\mathbf{0.749 \pm 0.025}\) &
+\(\mathbf{0.745 \pm 0.027}\) &
+\(0.836 \pm 0.031\) \\
+
+\textbf{Hariharan and Jothi 2026} &
+RFE + SVM, without augmentation &
+\(0.727 \pm 0.033\) &
+\(0.724 \pm 0.033\) &
+\(0.810 \pm 0.027\) \\
+
+\bottomrule
+\end{tabularx}
+\endgroup
+\caption{Shared-test results on AD versus CTL over ten repetitions. The reported configuration maximizes mean ROC-AUC within each reproduced family after excluding all-gene variants.}
+\label{tab:ad-ctl-sota-results}
+\end{table}
+
+Performance is consistently higher on AD versus CTL. Kelly et al. provides the strongest ranking performance, with a mean ROC-AUC of \(0.848\). Diagnostics provides the highest accuracy (\(0.749\)) and macro-F1 (\(0.745\)), while its ROC-AUC of \(0.836\) is close to those of Kelly et al. and Lee and Lee. The two image or deep-learning-oriented families also exceed \(0.80\) ROC-AUC, but neither improves on the strongest classical combinations.
+
+\subsection*{MCI versus CTL}
+
+\begin{table}[htbp]
+\centering
+\begingroup
+\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\textwidth}{
+    >{\raggedright\arraybackslash}p{0.18\textwidth}
+    >{\raggedright\arraybackslash}X
+    >{\centering\arraybackslash}p{0.15\textwidth}
+    >{\centering\arraybackslash}p{0.15\textwidth}
+    >{\centering\arraybackslash}p{0.15\textwidth}
+}
+\toprule
+\rowcolor{gray!18}
+\textbf{Reference} &
+\textbf{Selected configuration} &
+\textbf{Accuracy} &
+\textbf{Macro-F1} &
+\textbf{ROC-AUC} \\
+\midrule
+
+\textbf{Lee and Lee 2020} &
+DEG + dense neural network &
+\(0.695 \pm 0.075\) &
+\(0.684 \pm 0.083\) &
+\(\mathbf{0.782 \pm 0.059}\) \\
+
+\rowcolor{gray!5}
+\textbf{Kelly et al. 2023} &
+VSSRFE--LR + random forest &
+\(\mathbf{0.723 \pm 0.053}\) &
+\(\mathbf{0.714 \pm 0.054}\) &
+\(0.777 \pm 0.052\) \\
+
+\textbf{One2MFusion 2023} &
+FNN/CNN fusion &
+\(0.672 \pm 0.066\) &
+\(0.651 \pm 0.087\) &
+\(0.742 \pm 0.071\) \\
+
+\rowcolor{gray!5}
+\textbf{Diagnostics 2025} &
+XGBoost/SFBS + random forest, without SMOTE &
+\(0.708 \pm 0.072\) &
+\(0.700 \pm 0.071\) &
+\(0.770 \pm 0.058\) \\
+
+\textbf{Hariharan and Jothi 2026} &
+Chi-square + SVM, without augmentation &
+\(0.672 \pm 0.062\) &
+\(0.671 \pm 0.062\) &
+\(0.742 \pm 0.058\) \\
+
+\bottomrule
+\end{tabularx}
+\endgroup
+\caption{Shared-test results on MCI versus CTL over ten repetitions. The reported configuration maximizes mean ROC-AUC within each reproduced family after excluding all-gene variants.}
+\label{tab:mci-ctl-sota-results}
+\end{table}
+
+MCI versus CTL occupies an intermediate position between the other two tasks. Lee and Lee obtains the highest mean ROC-AUC (\(0.782\)), whereas Kelly et al. gives the strongest thresholded performance, with accuracy \(0.723\) and macro-F1 \(0.714\). Diagnostics is close to both methods. One2MFusion and Hariharan and Jothi reach the same rounded ROC-AUC (\(0.742\)), although the Hariharan and Jothi configuration gives the more balanced macro-F1.
+
+\medskip
+Across the three tasks, the best mean ROC-AUC decreases from \(0.848\) for AD versus CTL to \(0.782\) for MCI versus CTL and \(0.657\) for AD versus MCI. The corresponding best macro-F1 values are \(0.745\), \(0.714\), and \(0.598\). This ordering is consistent with the increasing clinical similarity of the compared groups and confirms that strong AD-versus-control performance does not imply equally strong discrimination between AD and MCI.
+
+The updated results also weaken any simple claim that greater architectural complexity is beneficial. Nine of the fifteen reported family-by-task configurations use either a random forest or an SVM after explicit feature selection; the full One2MFusion model is selected only for the two control comparisons. For the Hariharan and Jothi reproduction, the selected ten-repeat configurations are unaugmented. The separate three-repeat CTGAN pilot is not included in the main tables because it does not provide an estimate with the same repetition count.
+
+These observations are descriptive. No formal statistical test was conducted, several differences are small relative to their between-repeat standard deviations, and the task-specific configurations were identified from the shared-test summaries. The reported values should therefore not be interpreted as confirmatory evidence that one method is superior. They describe the performance range observed for the reproduced approaches under the common leakage-aware protocol, using only selected-gene representations and the same repeated shared-test partitions.

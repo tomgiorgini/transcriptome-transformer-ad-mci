@@ -1,0 +1,12 @@
+.DS_Store
+.Rhistory
+.RData
+Source/.Rhistory
+
+# Local raw data
+
+# Generated DEG outputs
+Results/DEG/AD_vs_CTL/**
+Results/DEG/ADMCI_vs_CTL/**
+Results/DEG/MCI_vs_CTL/**
+

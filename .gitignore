@@ -1,0 +1,123 @@
+.DS_Store
+**/.DS_Store
+._*
+**/._*
+
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments and secrets loaded by development tools
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# Local scratch/rendering workspaces
+tmp/
+
+# Generated LaTeX intermediates (keep the source .tex and exported figures)
+assets/poster/latex/build/
+assets/poster/latex/library_build/
+assets/poster/latex/*.b64
+
+# Local R session state
+.Rhistory
+.RData
+
+# Large local task data
+task_dataset/matrix.txt
+task_dataset/processed/**
+
+# Downloaded GEO/pretraining data
+pretraining_dataset/geo_downloads/**
+pretraining_dataset/ppi_networks/**
+
+# Local secrets
+.secrets/
+
+# Public-release profile -----------------------------------------------------
+# These paths remain available in the local working copy but are excluded from
+# the publishable Git index.  Curated source code and small documentation stay
+# versioned; downloaded data, third-party material and generated artifacts do
+# not.
+.idea/
+.vscode/
+*.swp
+*.swo
+.tox/
+.nox/
+.Rproj.user/
+*.log
+*.pickle
+*.sqlite
+*.sqlite3
+*.db
+wandb/
+lightning_logs/
+
+task_dataset/*.txt
+task_dataset/*.tsv
+pretraining_dataset/geo_downloads/
+pretraining_dataset/ppi_networks/
+
+results/**
+!results/README.md
+output/
+poster_assets/
+results_table_raw_update.*
+tmp_*/
+
+Info/
+info/
+SOTA/Public Code/
+Scrittura Tesi/Paper/
+Scrittura Tesi/CONTEXT_CHATGPT_PUNTO_OBIETTIVO_TESI.md
+Scrittura Tesi/figures/txt_training_curves/
+Scrittura Tesi/figures/txt_training_curves_overlay/
+Scrittura Tesi/figures/txt_training_curves_shared_test_individual_repeats/
+Scrittura Tesi/meeting_*.html
+Scrittura Tesi/meeting_*.md
+Scrittura Tesi/*_preview.pdf
+Scrittura Tesi/risultati.pdf
+deg_analysis/Results/
+Agent.md
+TESI_HIGH_LEVEL_CONTEXT.md
+revisione_capitoli_1_3.md
+experiments/scripts/paper_comparison/CURRENT_TXT_MULTITASK_CONTEXT.md
+experiments/scripts/paper_comparison/README_TXT_MULTITASK_HANDOFF.md
+experiments/scripts/paper_comparison/txt_volumetric/README_HANDOFF_ALTRO_PC.md
+
+assets/poster/attention/
+assets/poster/logos/
+assets/poster/motivation/
+assets/poster/results/
+assets/poster/results_latex/
+assets/poster/latex/*_build/
+assets/poster/latex/TxT_poster_formula_set.tex
+assets/poster/latex/extract_formula_attention_aligned.py
+assets/poster/latex/extract_formula_embedding.py
+assets/poster/latex/extract_poster_formula_set.py
+assets/poster/latex/formula_attention_aligned.*
+assets/poster/latex/formula_embedding_qkv.*
+assets/poster/latex/poster_formula_*.svg
+assets/poster/pca_clinical_overlap.png
+experiments/scripts/paper_comparison/plot_seed101_attention.py
+experiments/scripts/poster/
+
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc

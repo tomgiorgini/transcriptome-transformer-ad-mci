@@ -1,0 +1,2 @@
+enabled,embedding_id,source,score_threshold,embedding_path,edge_path,notes
+true,ppi_init_hippie_highconf_all_genes,hippie,0.73,results\pretraining\ppi_init\hippie_highconf_seed42\gene_embedding.csv,pretraining_dataset\ppi_networks\hippie_highconf_edges.csv,HIPPIE v2.4 high-confidence PPI node2vec init remapped to all AD/MCI genes; not a restoration checkpoint.
