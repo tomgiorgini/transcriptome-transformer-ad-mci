@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this thesis software, please cite this repository and the original TxT article."
 title: "Prediction of Alzheimer's Disease and Mild Cognitive Impairment from Blood Gene Expression Using Transcriptome Transformers"
 type: software
+repository-code: "https://github.com/tomgiorgini/transcriptome-transformer-ad-mci"
+date-released: 2026-08-29
 authors:
   - family-names: Giorgini
     given-names: Tommaso
