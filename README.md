@@ -19,14 +19,10 @@ This Master's thesis project adapts the [Transcriptome Transformer (TxT)](https:
 - Three clear entry points instead of historical launchers and one-off scripts.
 
 <p align="center">
-  <img src="docs/images/model-architecture.svg" alt="Multi-task Transcriptome Transformer architecture" width="900">
+  <img src="docs/images/model-architecture.png" alt="Transcriptome Transformer method and multi-task architecture" width="100%">
 </p>
 
 ## Results snapshot
-
-<p align="center">
-  <img src="docs/images/results-overview.svg" alt="Accuracy, macro-F1 and ROC-AUC for the three classification tasks" width="820">
-</p>
 
 | Task | Accuracy | Macro-F1 | ROC-AUC |
 |---|---:|---:|---:|
@@ -69,10 +65,6 @@ python experiments/prepare_data.py --help
 python experiments/build_ppi_embedding.py --help
 python experiments/train.py --help
 ~~~
-
-<p align="center">
-  <img src="docs/images/quickstart.svg" alt="Visual quick-start for data, PPI initialization and training" width="860">
-</p>
 
 For an executable walkthrough, continue with [docs/quickstart.md](docs/quickstart.md).
 

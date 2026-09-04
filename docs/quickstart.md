@@ -2,8 +2,6 @@
 
 The public interface contains three Python entry points and one data-acquisition helper.
 
-![Data, PPI and training workflow](images/quickstart.svg)
-
 ## 1. Environment
 
 ~~~bash
