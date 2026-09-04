@@ -11,7 +11,7 @@ This Master's thesis project adapts the [Transcriptome Transformer (TxT)](https:
 
 ## Highlights
 
-- One maintained trainer with the complete non-VMA experiment surface.
+- One maintained trainer with the complete experiment surface.
 - Optional HIPPIE/node2vec initialization for biology-informed gene embeddings.
 - Train-only feature selection, scaling, and augmentation.
 - Fixed or generated diagnosis-stratified splits.
