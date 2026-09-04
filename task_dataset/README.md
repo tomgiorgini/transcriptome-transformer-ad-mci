@@ -14,7 +14,7 @@ The expected retained cohort is 711 samples (284 AD, 189 MCI, 238 controls). Pro
 From the repository root:
 
 ```bash
-Rscript pretraining_dataset/scripts/prepare_addneuromed_geo.R \
+Rscript data/download_geo.R \
   --output-dir=task_dataset --install
 ```
 
@@ -33,10 +33,9 @@ Use `--combat` only for the experiments that explicitly require the original two
 Build the canonical Python datasets:
 
 ```bash
-python experiments/scripts/baseline/build_alzheimer_dataset.py
-python experiments/scripts/paper_comparison/build_txt_pairwise_datasets.py
+python experiments/prepare_data.py
 ```
 
-The first command creates a diagnosis-stratified 70/10/20 split at seed 42. Repeated evaluation protocols create their own seed-specific splits from the same aligned cohort.
+The command creates the canonical matrix, labels, and a diagnosis-stratified 70/10/20 split at seed 42. The trainer can also generate seed-specific stratified splits.
 
 Do not commit generated matrices, individual-level metadata, or split manifests containing local absolute paths.

@@ -1,107 +1,101 @@
 # Quick start
 
-This guide gives three progressively more expensive ways to evaluate the project. Start with the data-free path: it proves that the repository is wired correctly without downloading biomedical data or launching training.
+The public interface contains three Python entry points and one data-acquisition helper.
 
-![Three-level quick-start](images/quickstart.svg)
+![Data, PPI and training workflow](images/quickstart.svg)
 
-## Level 1 — data-free validation
+## 1. Environment
 
-### 1. Create the environment
-
-```bash
-git clone https://github.com/tomgiorgini/transcriptome-transformer-ad-mci.git
-cd transcriptome-transformer-ad-mci
-
+~~~bash
 python3 -m venv .venv
-source .venv/bin/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
+source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-```
+~~~
 
-Python 3.10–3.12 is recommended. Training uses PyTorch 2.x.
+Python 3.10–3.12 and PyTorch 2.x are recommended.
 
-### 2. Run the automated checks
+## 2. Data
 
-```bash
-python -m compileall -q source experiments/scripts SOTA/source
-python -m pytest -q tests
-```
+Download GSE63060 and GSE63061, map probes to genes, retain AD/MCI/control samples, and align shared genes:
 
-The core test suite uses synthetic fixtures and does not require GEO matrices. Tests colocated under `SOTA/source/` require `requirements-optional.txt`.
+~~~bash
+Rscript data/download_geo.R --output-dir=task_dataset --install
+~~~
 
-### 3. Inspect the final experiment plan
+Create <code>X.csv</code>, <code>y.csv</code>, and the diagnosis-stratified 70/10/20 split:
 
-```bash
-python experiments/scripts/paper_comparison/run_txt_multitask_final_pipeline.py \
-  --preset balanced --dry-run
-```
+~~~bash
+python experiments/prepare_data.py
+~~~
 
-The command writes a manifest under `results/` and prints the five planned stages: dataset construction, three PPI embedding dimensions, and the final grid. It does not execute those stages.
+Expected checks:
 
-Expected summary:
+~~~text
+Samples: 711
+Genes: 19460
+~~~
 
-```text
-Dry run complete. Planned steps: 5.
-[build_dataset] ...
-[build_ppi_dim64] ...
-[build_ppi_dim128] ...
-[build_ppi_dim256] ...
-[run_grid] ...
-```
+Generated participant-level files stay under <code>task_dataset/</code> and are ignored by Git.
 
-## Level 2 — prepare data and run a CPU smoke test
+## 3. Optional PPI initialization
 
-The expression matrices are rebuilt from public GEO accessions and remain ignored by Git.
+~~~bash
+python experiments/build_ppi_embedding.py \
+  --embedding-dim 128 \
+  --score-threshold 0.73 \
+  --seed 42 \
+  --device cuda
+~~~
 
-```bash
-Rscript pretraining_dataset/scripts/prepare_addneuromed_geo.R \
-  --output-dir=task_dataset --install
+Use <code>--device cpu</code> on machines without CUDA. The command downloads the current HIPPIE MITAB file unless <code>--hippie-file</code> is supplied.
 
-python experiments/scripts/baseline/build_alzheimer_dataset.py
-python experiments/scripts/paper_comparison/build_txt_pairwise_datasets.py
-```
+## 4. Train
 
-Check that the aligned cohort contains 711 samples and 19,460 genes. A change in those counts should trigger an annotation audit before training.
+CPU smoke run:
 
-Run one deliberately small CPU experiment:
-
-```bash
-python experiments/scripts/paper_comparison/run_txt_multitask_cv_and_seeds.py \
-  --run-mode seeds \
-  --architectures 1l2h \
+~~~bash
+python experiments/train.py \
   --device cpu \
-  --smoke \
-  --result-root results/smoke/txt_multitask
-```
+  --epochs 1 \
+  --max-genes 128 \
+  --max-train-batches 2 \
+  --max-val-batches 1 \
+  --result-dir results/smoke
+~~~
 
-Each completed run produces metrics, a training log, model metadata, and the exact configuration under its result directory.
+Maintained PPI-initialized configuration:
 
-## Level 3 — reproduce the research configuration
-
-Full experiments require a CUDA-capable system and take substantially longer. Build the PPI initialization and launch the maintained grid through the orchestrator:
-
-```bash
-python experiments/scripts/paper_comparison/run_txt_multitask_final_pipeline.py \
-  --preset balanced \
+~~~bash
+python experiments/train.py \
   --device cuda \
-  --ppi-device cuda
-```
+  --seed 101 \
+  --n-layers 1 --n-heads 2 \
+  --d-model 128 --embed-dim 128 --d-ff 512 \
+  --dropout 0.4 --batch-size 16 \
+  --epochs 100 --early-stopping-patience 30 \
+  --max-genes 2000 \
+  --gene-selection ad_mci_vs_ctl_anova_50_50 \
+  --task-specific-pooling on \
+  --embed-file results/ppi_embeddings/hippie_highconf_dim128_score0p73_seed42/ppi_node_embedding.csv \
+  --embedding-gene-policy mapped_only \
+  --result-dir results/training/seed101
+~~~
 
-Before a long run, inspect all available controls:
+Use a distinct <code>--result-dir</code> for every seed or configuration.
 
-```bash
-python experiments/scripts/paper_comparison/run_txt_multitask_final_pipeline.py --help
-python experiments/scripts/paper_comparison/run_txt_multitask_cv_and_seeds.py --help
-```
+## Option groups
 
-See [reproducibility.md](reproducibility.md) for leakage controls, software environments, computational cost tiers, and the result-provenance checklist.
+<code>experiments/train.py --help</code> is the authoritative reference. Its main controls cover:
 
-## Common problems
-
-| Symptom | What to check |
+| Group | Examples |
 |---|---|
-| `FileNotFoundError` below `task_dataset/processed/` | Complete the three data-preparation commands in Level 2. |
-| CUDA is unavailable | Use `--device cpu` for a smoke test; full grids are intended for CUDA. |
-| GEO counts differ from 711 × 19,460 | Stop and inspect platform annotations or label filtering. |
-| PPI embedding file is missing | Run the final pipeline without `--skip-ppi-build`. |
-| A generated file appears in Git status | Keep datasets, checkpoints and logs under their documented ignored directories. |
+| Data and split | official/custom/stratified/random split, train/validation/test ratios |
+| Features | variance, MAD, pairwise ANOVA, AD–MCI-priority ANOVA |
+| Embeddings | random, direct PPI, gated-residual PPI, mapped-only gene universe |
+| Architecture | layers, heads, dimensions, pooling, shared/separate encoders, TUPE |
+| Optimization | learning rates, weight decay, class weights, task weights, early stopping |
+| Augmentation | SMOTE, Borderline-SMOTE, PCA neighbours, CTGAN, conditional GAN |
+| Evaluation | checkpoint metric, per-epoch diagnostics, checkpoint ensemble |
+
+No volumetric-modulated-attention (VMA) implementation or option is included.

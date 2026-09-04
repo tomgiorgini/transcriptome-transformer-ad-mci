@@ -1,73 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520" role="img" aria-labelledby="title desc">
-  <title id="title">Transcriptome Transformer quick start</title>
-  <desc id="desc">Three cards show how to clone and install the project, run the data-free pipeline preview, and continue to a smoke or full experiment.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="450" viewBox="0 0 1000 450" role="img" aria-labelledby="title desc">
+  <title id="title">Three-step Transcriptome Transformer workflow</title>
+  <desc id="desc">Prepare GEO data, build an optional PPI embedding, then train the multi-task Transcriptome Transformer.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#07111f"/>
       <stop offset="1" stop-color="#11233d"/>
     </linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#020617" flood-opacity=".28"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity=".28"/>
     </filter>
   </defs>
-  <rect width="1000" height="520" rx="24" fill="url(#bg)"/>
-  <text x="52" y="62" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="700">From clone to a verified experiment plan</text>
-  <text x="52" y="93" fill="#9fb2ca" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16">The first pass is data-free: no GEO download, GPU, or training required.</text>
+  <rect width="1000" height="450" rx="24" fill="url(#bg)"/>
+  <text x="52" y="58" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="28" font-weight="700">Three entry points, one reproducible workflow</text>
+  <text x="52" y="88" fill="#9fb2ca" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="16">Each stage exports its inputs, configuration, and provenance.</text>
 
   <g filter="url(#shadow)">
-    <rect x="52" y="130" width="276" height="280" rx="18" fill="#10233d" stroke="#244467"/>
-    <rect x="362" y="130" width="276" height="280" rx="18" fill="#10233d" stroke="#244467"/>
-    <rect x="672" y="130" width="276" height="280" rx="18" fill="#10233d" stroke="#244467"/>
+    <rect x="52" y="124" width="276" height="252" rx="18" fill="#10233d" stroke="#244467"/>
+    <rect x="362" y="124" width="276" height="252" rx="18" fill="#10233d" stroke="#244467"/>
+    <rect x="672" y="124" width="276" height="252" rx="18" fill="#10233d" stroke="#244467"/>
   </g>
 
-  <circle cx="84" cy="166" r="17" fill="#38bdf8"/>
-  <text x="84" y="172" text-anchor="middle" fill="#07111f" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="800">1</text>
-  <text x="110" y="172" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="19" font-weight="700">Clone &amp; install</text>
-  <rect x="72" y="199" width="236" height="166" rx="10" fill="#050b14"/>
-  <circle cx="91" cy="217" r="4" fill="#fb7185"/>
-  <circle cx="105" cy="217" r="4" fill="#fbbf24"/>
-  <circle cx="119" cy="217" r="4" fill="#4ade80"/>
-  <g fill="#dbeafe" font-family="SFMono-Regular,Consolas,monospace" font-size="12">
-    <text x="88" y="247"><tspan fill="#38bdf8">$</tspan> git clone …</text>
-    <text x="88" y="272"><tspan fill="#38bdf8">$</tspan> cd transcriptome-</text>
-    <text x="104" y="291">transformer-ad-mci</text>
-    <text x="88" y="316"><tspan fill="#38bdf8">$</tspan> python3 -m venv .venv</text>
-    <text x="88" y="341"><tspan fill="#38bdf8">$</tspan> pip install -r</text>
-    <text x="104" y="358">requirements.txt</text>
+  <circle cx="84" cy="160" r="17" fill="#38bdf8"/>
+  <text x="84" y="166" text-anchor="middle" fill="#07111f" font-family="Arial,sans-serif" font-size="17" font-weight="800">1</text>
+  <text x="110" y="166" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="700">Prepare data</text>
+  <rect x="72" y="192" width="236" height="118" rx="10" fill="#050b14"/>
+  <g fill="#dbeafe" font-family="Consolas,monospace" font-size="12">
+    <text x="88" y="225"><tspan fill="#38bdf8">$</tspan> Rscript data/</text>
+    <text x="104" y="245">download_geo.R …</text>
+    <text x="88" y="275"><tspan fill="#38bdf8">$</tspan> python experiments/</text>
+    <text x="104" y="295">prepare_data.py</text>
   </g>
-  <text x="72" y="392" fill="#8fa7c2" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">Recommended: Python 3.10–3.12</text>
+  <text x="72" y="341" fill="#8fa7c2" font-family="Arial,sans-serif" font-size="12">711 samples · 19,460 genes</text>
 
-  <circle cx="394" cy="166" r="17" fill="#a78bfa"/>
-  <text x="394" y="172" text-anchor="middle" fill="#07111f" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="800">2</text>
-  <text x="420" y="172" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="19" font-weight="700">Preview safely</text>
-  <rect x="382" y="199" width="236" height="166" rx="10" fill="#050b14"/>
-  <g fill="#dbeafe" font-family="SFMono-Regular,Consolas,monospace" font-size="12">
-    <text x="398" y="238"><tspan fill="#a78bfa">$</tspan> python experiments/</text>
-    <text x="414" y="257">scripts/paper_comparison/</text>
-    <text x="414" y="276">run_txt_multitask_</text>
-    <text x="414" y="295">final_pipeline.py</text>
-    <text x="414" y="320">--preset balanced</text>
-    <text x="414" y="339">--dry-run</text>
+  <circle cx="394" cy="160" r="17" fill="#a78bfa"/>
+  <text x="394" y="166" text-anchor="middle" fill="#07111f" font-family="Arial,sans-serif" font-size="17" font-weight="800">2</text>
+  <text x="420" y="166" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="700">Initialize PPI</text>
+  <rect x="382" y="192" width="236" height="118" rx="10" fill="#050b14"/>
+  <g fill="#dbeafe" font-family="Consolas,monospace" font-size="12">
+    <text x="398" y="229"><tspan fill="#a78bfa">$</tspan> python experiments/</text>
+    <text x="414" y="249">build_ppi_embedding.py</text>
+    <text x="414" y="275">--embedding-dim 128</text>
+    <text x="414" y="295">--device cuda</text>
   </g>
-  <text x="382" y="392" fill="#8fa7c2" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">Prints commands; does not train.</text>
+  <text x="382" y="341" fill="#8fa7c2" font-family="Arial,sans-serif" font-size="12">Optional HIPPIE node2vec prior</text>
 
-  <circle cx="704" cy="166" r="17" fill="#34d399"/>
-  <text x="704" y="172" text-anchor="middle" fill="#07111f" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" font-weight="800">3</text>
-  <text x="730" y="172" fill="#f8fafc" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="19" font-weight="700">Choose a run</text>
-  <rect x="692" y="199" width="236" height="72" rx="10" fill="#0a332d" stroke="#1f7a68"/>
-  <text x="710" y="226" fill="#6ee7b7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700">CPU smoke test</text>
-  <text x="710" y="249" fill="#b6c9d9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">Prepared data · short feedback loop</text>
-  <rect x="692" y="287" width="236" height="78" rx="10" fill="#2d213f" stroke="#6d4aa0"/>
-  <text x="710" y="315" fill="#c4b5fd" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="700">Full CUDA protocol</text>
-  <text x="710" y="338" fill="#b6c9d9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">PPI embeddings · repeated grid</text>
-  <text x="692" y="392" fill="#8fa7c2" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12">Every run exports provenance.</text>
+  <circle cx="704" cy="160" r="17" fill="#34d399"/>
+  <text x="704" y="166" text-anchor="middle" fill="#07111f" font-family="Arial,sans-serif" font-size="17" font-weight="800">3</text>
+  <text x="730" y="166" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="700">Train TxT</text>
+  <rect x="692" y="192" width="236" height="118" rx="10" fill="#050b14"/>
+  <g fill="#dbeafe" font-family="Consolas,monospace" font-size="12">
+    <text x="708" y="229"><tspan fill="#34d399">$</tspan> python experiments/</text>
+    <text x="724" y="249">train.py</text>
+    <text x="724" y="275">--seed 101</text>
+    <text x="724" y="295">--device cuda …</text>
+  </g>
+  <text x="692" y="341" fill="#8fa7c2" font-family="Arial,sans-serif" font-size="12">Metrics · predictions · manifest</text>
 
-  <path d="M328 270h34" stroke="#5d7897" stroke-width="2"/>
-  <path d="M353 263l9 7-9 7" fill="none" stroke="#5d7897" stroke-width="2"/>
-  <path d="M638 270h34" stroke="#5d7897" stroke-width="2"/>
-  <path d="M663 263l9 7-9 7" fill="none" stroke="#5d7897" stroke-width="2"/>
+  <path d="M328 250h34" stroke="#6f89a6" stroke-width="2"/><path d="M353 243l9 7-9 7" fill="none" stroke="#6f89a6" stroke-width="2"/>
+  <path d="M638 250h34" stroke="#6f89a6" stroke-width="2"/><path d="M663 243l9 7-9 7" fill="none" stroke="#6f89a6" stroke-width="2"/>
 
-  <rect x="52" y="444" width="896" height="40" rx="12" fill="#0b1b2f" stroke="#244467"/>
-  <circle cx="76" cy="464" r="7" fill="#34d399"/>
-  <text x="94" y="470" fill="#dbeafe" font-family="SFMono-Regular,Consolas,monospace" font-size="14">Dry run complete. Planned steps: 5.</text>
+  <rect x="52" y="398" width="896" height="2" fill="#244467"/>
+  <text x="52" y="425" fill="#9fb2ca" font-family="Arial,sans-serif" font-size="13">No VMA · no one-off launchers · generated data and results stay outside Git</text>
 </svg>

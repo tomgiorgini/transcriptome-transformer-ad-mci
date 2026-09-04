@@ -1,8 +1,0 @@
-ID Interactor A	ID Interactor B	Alt IDs Interactor A	Alt IDs Interactor B	Aliases Interactor A	Aliases Interactor B	Interaction Detection Methods	Publication 1st Author	Publication Identifiers	Taxid Interactor A	Taxid Interactor B	Interaction Types	Source Databases	Interaction Identifiers	Confidence Value	Presence In Other Species	Gene Name Interactor A	Gene Name Interactor B
-entrez gene:1	entrez gene:2	uniprotkb:A_HUMAN	uniprotkb:B_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:1	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	-	biogrid	-	0.80		GENEA	GENEB
-entrez gene:2	entrez gene:1	uniprotkb:B_HUMAN	uniprotkb:A_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:2	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	-	biogrid	-	0.76		GENEB	GENEA
-entrez gene:3	entrez gene:3	uniprotkb:C_HUMAN	uniprotkb:C_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:3	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	-	biogrid	-	0.95		GENEC	GENEC
-entrez gene:4	entrez gene:5	uniprotkb:D_HUMAN	uniprotkb:E_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:4	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	-	biogrid	-	0.40		GENED	GENEE
-entrez gene:6	entrez gene:7	uniprotkb:F_HUMAN	uniprotkb:G_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:5	taxid:9606(Homo sapiens)	taxid:10090(Mus musculus)	-	biogrid	-	0.90		GENEF	GENEG
-entrez gene:8	entrez gene:9	uniprotkb:H_HUMAN	uniprotkb:I_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:6	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	-	biogrid	-	0.88		-	GENEI
-entrez gene:10	entrez gene:11	uniprotkb:J_HUMAN	uniprotkb:K_HUMAN	-	-	MI:0493(in vivo)	-	pubmed:7	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	-	biogrid	-	0.73		GENEJ	GENEK

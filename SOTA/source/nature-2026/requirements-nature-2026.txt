@@ -1,6 +1,0 @@
-numpy
-pandas
-scikit-learn
-xgboost
-tensorflow
-ctgan>=0.12,<0.13

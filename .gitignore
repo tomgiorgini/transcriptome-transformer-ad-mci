@@ -36,9 +36,7 @@ venv/
 task_dataset/*.txt
 task_dataset/*.tsv
 task_dataset/processed/
-pretraining_dataset/geo_downloads/
-pretraining_dataset/ppi_networks/
-deg_analysis/Results/
+data/ppi/
 
 # Experiment artifacts
 results/**

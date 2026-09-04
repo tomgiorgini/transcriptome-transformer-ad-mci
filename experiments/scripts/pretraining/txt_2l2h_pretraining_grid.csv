@@ -1,6 +1,0 @@
-enabled,pretraining_id,description,matrix_file,model_size,gene_subset_size,mask_ratio,notes
-true,P1,Neurodegenerative multi-disease multi-tissue,pretraining_dataset\geo_downloads\merged_pretraining\pretraining_greedy_iter_21_with_reference_global_zscore_matrix_samples_x_genes.csv,two_layer_2head,0,0.25,Current available all-gene greedy pretraining matrix.
-false,P2,AD/MCI/CTL multi-tissue,,two_layer_2head,0,0.25,Matrix must be built before running.
-false,P3,AD/MCI no-CTL multi-tissue,,two_layer_2head,0,0.25,Matrix must be built before running.
-false,P4,Blood-only neurodegenerative,,two_layer_2head,0,0.25,Matrix must be built before running.
-false,P5,Blood-only no-CTL,,two_layer_2head,0,0.25,Matrix must be built before running.

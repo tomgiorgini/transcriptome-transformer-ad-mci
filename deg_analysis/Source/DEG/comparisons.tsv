@@ -1,5 +1,0 @@
-comparison_id	case_group	control_group	case_label	control_label	logfc_threshold	pval_threshold	iqr_quantile	boxplot_top_n
-AD_vs_CTL	AD	CTL	Alzheimer Disease	Control	0.00	0.05	0.10	3
-AD_vs_MCI	AD	MCI	Alzheimer Disease	MCI	0.00	0.05	0.10	3
-MCI_vs_CTL	MCI	CTL	MCI	Control	0.00	0.05	0.10	3
-ADMCI_vs_CTL	ADMCI	CTL	AD + MCI	Control	0.00	0.05	0.10	3

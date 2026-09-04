@@ -4,10 +4,10 @@
 
 - Python syntax/CLI audit: Python 3.13.7 on macOS (August 2026).
 - Recommended training environment: Python 3.10–3.12 with PyTorch 2.x.
-- R data/DEG scripts: R 4.5 with Bioconductor.
+- GEO data preparation: R 4.5 with Bioconductor.
 - CUDA training was used for the complete repeated experiments; CPU/MPS are suitable for dry runs and small smoke tests.
 
-The dependency ranges in `requirements.txt` describe the maintained Python pipeline. `requirements-optional.txt` contains literature baselines, generative augmentation, legacy T-GEM, and PDF tooling.
+The dependency ranges in `requirements.txt` describe the maintained Python pipeline. `requirements-optional.txt` contains only generative-augmentation backends and an optional TLS certificate bundle.
 
 ## Leakage controls
 
@@ -15,15 +15,15 @@ The dependency ranges in `requirements.txt` describe the maintained Python pipel
 - feature selection and scaling fitted on training data only in the main model protocol;
 - no augmentation of validation or test samples;
 - validation-only checkpoint selection;
-- shared manifests across reproduced methods where applicable.
+- machine-readable split and configuration manifests for each run.
 
 Global ComBat correction used in some historical pooled experiments is an explicit exception: it is fitted before splitting and therefore allows validation/test distributions to affect harmonization. Raw-cohort and train-aware alternatives should be preferred for fully inductive evaluation.
 
 ## Cost tiers
 
-1. **Data-free:** compilation, unit tests, and `--help`/`--dry-run` commands.
-2. **Smoke:** one short CPU run using `--smoke`; requires prepared local data.
-3. **Full:** repeated ten-seed CUDA training, PPI/node2vec initialization, SOTA grids, and attention export.
+1. **Data-free:** compilation and the three `--help` commands.
+2. **Smoke:** one epoch with bounded train/validation batches; requires prepared local data.
+3. **Full:** repeated-seed CUDA training and PPI/node2vec initialization.
 
 ## R packages
 
@@ -31,11 +31,10 @@ Install from Bioconductor/CRAN as needed:
 
 ```r
 install.packages("BiocManager")
-BiocManager::install(c("GEOquery", "Biobase", "limma", "sva"))
-install.packages(c("enrichR", "forcats", "ggplot2", "openxlsx", "pheatmap", "stringr"))
+BiocManager::install(c("GEOquery", "Biobase", "sva"))
 ```
 
-`sva` is necessary only for `--combat`. Network-backed enrichment services can change over time; preserve the returned database version and date with any published result.
+`sva` is necessary only for the explicit `--combat` reproduction mode.
 
 ## Result provenance checklist
 

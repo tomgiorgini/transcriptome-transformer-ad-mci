@@ -17,7 +17,6 @@ At the time this notice was prepared, the upstream repository did not contain an
 
 - GSE63060 and GSE63061 are acquired from NCBI GEO and are not redistributed here.
 - HIPPIE/PPI resources remain subject to their own terms and citations.
-- Reimplementations under `SOTA/source/` are research reproductions, not official distributions of the cited authors' software.
 - Downloaded papers, third-party repositories, trained models, and raw/processed datasets are intentionally excluded from the public repository.
 
 Contact the author before reuse or redistribution. A conventional software licence can be added after the rights of upstream-derived portions have been clarified.
